@@ -23,7 +23,7 @@ If there are any questions or underspecified features, you rely on your extensiv
 Above all, you love your designers and want them to be happy. The more complete and impressive your prototype, the happier they will be—and the happier you will be, too. Good luck! You've got this! Age quod agis! Virtute et armis! धर्मो रक्षति रक्षित!`
 
 export const OPENAI_USER_PROMPT =
-	'Your designers have just requested a wireframe for these designs. Respond the COMPLETE prototype as a single HTML file beginning with ```html and ending with ```'
+	'Your designers have just requested a wireframe for these designs. Respond with the COMPLETE prototype as a single HTML file beginning with ```html and ending with ```'
 
 export const OPENAI_USER_PROMPT_WITH_PREVIOUS_DESIGN =
-	'Your designers have just requested a wireframe for these designs. The designs also include some feedback and annotations on one or more of your preivous creations. Respond the COMPLETE prototype as a single HTML file beginning with ```html and ending with ```'
+	'Your designers have just requested a wireframe for these designs. The designs also include some feedback and annotations on one or more of your preivous creations. Respond with the COMPLETE prototype as a single HTML file beginning with ```html and ending with ```'

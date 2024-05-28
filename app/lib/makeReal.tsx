@@ -1,9 +1,10 @@
 import { Editor, createShapeId, getSvgAsImage, track } from '@tldraw/tldraw'
-import { getSelectionAsText } from './lib/getSelectionAsText'
-import { getHtmlFromOpenAI } from './lib/getHtmlFromOpenAI'
-import { blobToBase64 } from './lib/blobToBase64'
-import { addGridToSvg } from './lib/addGridToSvg'
-import { PreviewShape } from './PreviewShape/PreviewShape'
+import { getSelectionAsText } from './getSelectionAsText'
+import { getHtmlFromOpenAI } from './getHtmlFromOpenAI'
+import { getHtmlFromGemini } from './getHtmlFromGemini'
+import { blobToBase64 } from './blobToBase64'
+import { addGridToSvg } from './addGridToSvg'
+import { PreviewShape } from '../PreviewShape/PreviewShape'
 
 export async function makeReal(editor: Editor, apiKey: string) {
 	// Get the selected shapes (we need at least one)
@@ -38,6 +39,7 @@ export async function makeReal(editor: Editor, apiKey: string) {
 
 	if (!svg) throw Error(`Could not get the SVG.`)
 
+	/* With Gemini we don't need to turn it into a data url. We are going to pass the SVG. 
 	// Turn the SVG into a DataUrl
 	const IS_SAFARI = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
 	const blob = await getSvgAsImage(svg, IS_SAFARI, {
@@ -47,16 +49,18 @@ export async function makeReal(editor: Editor, apiKey: string) {
 	})
 	const dataUrl = await blobToBase64(blob!)
 	// downloadDataURLAsFile(dataUrl, 'tldraw.png')
+	*/
 
 	// Get any previous previews among the selected shapes
 	const previousPreviews = selectedShapes.filter((shape) => {
 		return shape.type === 'response'
 	}) as PreviewShape[]
+	
 
-	// Send everything to OpenAI and get some HTML back
+	// Send everything to Gemini and get some HTML back
 	try {
-		const json = await getHtmlFromOpenAI({
-			image: dataUrl,
+		const json = await getHtmlFromGemini({
+			image: svg,
 			apiKey,
 			text: getSelectionAsText(editor),
 			previousPreviews,
@@ -65,15 +69,15 @@ export async function makeReal(editor: Editor, apiKey: string) {
 		})
 
 		if (!json) {
-			throw Error('Could not contact OpenAI.')
+			throw Error('Could not contact Gemini.')
 		}
 
-		if (json?.error) {
-			throw Error(`${json.error.message?.slice(0, 128)}...`)
-		}
+		//if (json?.error) {
+		//	throw Error(`${json.error.message?.slice(0, 128)}...`)
+		//}
 
 		// Extract the HTML from the response
-		const message = json.choices[0].message.content
+		const message = json
 		const start = message.indexOf('<!DOCTYPE html>')
 		const end = message.indexOf('</html>')
 		const html = message.slice(start, end + '</html>'.length)

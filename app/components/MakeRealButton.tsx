@@ -1,6 +1,6 @@
 import { useEditor, useToasts } from '@tldraw/tldraw'
 import { useCallback } from 'react'
-import { makeReal } from '../makeReal'
+import { makeReal } from '../lib/makeReal'
 
 export function MakeRealButton() {
 	const editor = useEditor()
@@ -17,7 +17,7 @@ export function MakeRealButton() {
 			addToast({
 				icon: 'cross-2',
 				title: 'Something went wrong',
-				description: (e as Error).message.slice(0, 100),
+				description: (e as Error).message.slice(0, 200),
 			})
 		}
 	}, [editor, addToast])
