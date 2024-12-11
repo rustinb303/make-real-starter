@@ -26,13 +26,15 @@ export async function getHtmlFromGemini({
         labels: boolean;
     };
     previousPreviews?: PreviewShape[];
+	model?: string;
 }) {
 
 	if (!apiKey) throw Error('You need to provide an API key (sorry)');
 	console.log("creating a model with the key " + apiKey);
     // Create a Gemini model instance
 	const genAI = new GoogleGenerativeAI(apiKey);
-	const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+	const modelName = model || 'gemini-1.5-pro';
+	const model = genAI.getGenerativeModel({ model: modelName });
 	
 	// Convert SVG to base64 for Gemini Pro
 	
