@@ -4,7 +4,7 @@ Use this repo as a template to create Make Real style apps like
 [makereal.tldraw.com](https://makereal.tldraw.com). To get started:
 
 1. Use the template and clone your new repo to your computer
-2. Run `npm install` to install dependencies
+2. Run `npm install` to install dependencies (note: you can ignore npm audit warnings for development)
 3. Get an OpenAI API key from [platform.openai.com/api-keys](https://platform.openai.com/api-keys). Make sure
    you are at least a
    [Tier 1](https://platform.openai.com/docs/guides/rate-limits/usage-tiers) API
